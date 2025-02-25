@@ -12,7 +12,7 @@ plugins {
 }
 
 group = 'com.github.specdrivendesign'
-version = 'v0.0.3'
+version = 'v0.0.6'
 
 repositories {
     // Use Maven Central for resolving dependencies.
