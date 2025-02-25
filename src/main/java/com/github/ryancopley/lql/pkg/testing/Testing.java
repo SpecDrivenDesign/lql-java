@@ -42,6 +42,11 @@ public class Testing {
         public void setExpectedResult(Object expectedResult) { this.expectedResult = expectedResult; }
         public void setSkip(boolean skip) { this.skip = skip; }
         public void setFocus(boolean focus) { this.focus = focus; }
+
+        @Override
+        public String toString() {
+            return description;
+        }
     }
 
     public static class TestResult {
