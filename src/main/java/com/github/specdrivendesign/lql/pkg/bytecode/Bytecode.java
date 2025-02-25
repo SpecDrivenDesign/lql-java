@@ -2,6 +2,7 @@
 package com.github.specdrivendesign.lql.pkg.bytecode;
 
 import com.github.specdrivendesign.lql.pkg.tokens.Tokens;
+import com.github.specdrivendesign.lql.pkg.tokenstream.TokenStream;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
@@ -12,7 +13,7 @@ import java.util.Map;
 
 public class Bytecode {
 
-    public static class ByteCodeReader {
+    public static class ByteCodeReader implements TokenStream {
         private byte[] data;
         private int pos;
 
