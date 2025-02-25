@@ -36,14 +36,35 @@ public class Types {
     }
 
     public static boolean equals(Object left, Object right) {
-        Double lf = toFloat(left);
-        Double rf = toFloat(right);
-        if (lf != null && rf != null) {
+        if (left == right) return true;
+        if (left == null || right == null) return false;
+        if (left instanceof Number && right instanceof Number) {
+            Double lf = toFloat(left);
+            Double rf = toFloat(right);
             return Math.abs(lf - rf) < 1e-9;
         }
-        if (left == null) return right == null;
+        if (left instanceof List && right instanceof List) {
+            List<?> listA = (List<?>) left;
+            List<?> listB = (List<?>) right;
+            if (listA.size() != listB.size()) return false;
+            for (int i = 0; i < listA.size(); i++) {
+                if (!equals(listA.get(i), listB.get(i))) return false;
+            }
+            return true;
+        }
+        if (left instanceof Map && right instanceof Map) {
+            Map<?, ?> mapA = (Map<?, ?>) left;
+            Map<?, ?> mapB = (Map<?, ?>) right;
+            if (mapA.size() != mapB.size()) return false;
+            for (Object key : mapA.keySet()) {
+                if (!mapB.containsKey(key)) return false;
+                if (!equals(mapA.get(key), mapB.get(key))) return false;
+            }
+            return true;
+        }
         return left.equals(right);
     }
+
 
     public static boolean compare(Object left, Object right, String op, int line, int col) throws Exception {
         Double lf = toFloat(left);

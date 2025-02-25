@@ -45,7 +45,7 @@ public class Regex implements ILibrary {
             }
             case "replace": {
                 if (args.size() < 3 || args.size() > 4) {
-                    Param lastArg = args.get(args.size() - 1);
+                    Param lastArg = args.get(args.size()-1);
                     throw Errors.newParameterError("regex.replace requires 3 or 4 arguments", lastArg.getLine(), lastArg.getColumn());
                 }
                 Param arg0 = args.get(0);
@@ -72,8 +72,31 @@ public class Regex implements ILibrary {
                 } catch (Exception e) {
                     throw Errors.newTypeError("regex.replace: invalid pattern", arg1.getLine(), arg1.getColumn());
                 }
+
+                // Decide if we want capturing group substitution:
+                String actualReplacement;
+                if (!replacement.contains("$")) {
+                    // Literal replacement: escape it.
+                    actualReplacement = Matcher.quoteReplacement(replacement);
+                } else {
+                    // If replacement contains group references, use as is.
+                    // However, if it ends with an odd number of backslashes, append one more to make it valid.
+                    int backslashCount = 0;
+                    for (int i = replacement.length() - 1; i >= 0; i--) {
+                        if (replacement.charAt(i) == '\\') {
+                            backslashCount++;
+                        } else {
+                            break;
+                        }
+                    }
+                    if (backslashCount % 2 != 0) {
+                        replacement = replacement + "\\";
+                    }
+                    actualReplacement = replacement;
+                }
+
                 if (args.size() == 3) {
-                    return re.matcher(s).replaceAll(replacement);
+                    return re.matcher(s).replaceAll(actualReplacement);
                 }
                 Param arg3 = args.get(3);
                 Long lArg = Types.toInt(arg3.getValue());
@@ -87,11 +110,11 @@ public class Regex implements ILibrary {
                     if (!matcher.find()) {
                         break;
                     }
-                    // Replace only the first occurrence in this iteration.
-                    result = matcher.replaceFirst(replacement);
+                    result = matcher.replaceFirst(actualReplacement);
                 }
                 return result;
             }
+
             case "find": {
                 if (args.size() != 2) {
                     throw Errors.newParameterError("regex.find requires 2 arguments", line, col);

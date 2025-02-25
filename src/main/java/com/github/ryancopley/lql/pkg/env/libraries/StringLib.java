@@ -129,8 +129,8 @@ public class StringLib implements ILibrary {
                     throw Errors.newTypeError("string.split: second argument must be string", arg1.getLine(), arg1.getColumn());
                 }
                 String delimiter = (String) delimObj;
-                // Use Pattern.quote to treat the delimiter as a literal string.
-                String[] parts = ((String) s).split(java.util.regex.Pattern.quote(delimiter));
+                // Use Pattern.quote with a negative limit to preserve trailing empty strings.
+                String[] parts = ((String) s).split(java.util.regex.Pattern.quote(delimiter), -1);
                 List<String> result = new ArrayList<>();
                 for (String part : parts) {
                     result.add(part);

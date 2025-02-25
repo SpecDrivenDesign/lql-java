@@ -37,39 +37,43 @@ public class Array implements ILibrary {
                 }
                 return false;
 
-            case "find":
-                if (args.size() < 3 || args.size() > 4) {
-                    throw Errors.newParameterError("array.find requires 3 or 4 arguments", parenLine, parenCol);
-                }
-                arg0 = args.get(0);
-                arr = Types.convertToInterfaceList(arg0.getValue());
-                if (arr == null) {
-                    throw Errors.newTypeError("array.find: first argument must be an array", arg0.getLine(), arg0.getColumn());
-                }
-                Param arg1 = args.get(1);
-                Object subfieldObj = arg1.getValue();
-                if (!(subfieldObj instanceof String)) {
-                    throw Errors.newTypeError("array.find: second argument must be string", arg1.getLine(), arg1.getColumn());
-                }
-                String subfield = (String) subfieldObj;
-                Object matchVal = args.get(2).getValue();
-                Object defaultObj = null;
-                if (args.size() == 4) {
-                    defaultObj = args.get(3).getValue();
-                }
-                for (Object elem : arr) {
-                    Map<String, Object> obj = Types.convertToStringMap(elem);
-                    if (obj == null) {
-                        continue;
+                case "find":
+                    if (args.size() < 3 || args.size() > 4) {
+                        throw Errors.newParameterError("array.find requires 3 or 4 arguments", parenLine, parenCol);
                     }
-                    if (obj.containsKey(subfield) && Types.equals(obj.get(subfield), matchVal)) {
-                        return obj;
+                    arg0 = args.get(0);
+                    arr = Types.convertToInterfaceList(arg0.getValue());
+                    if (arr == null) {
+                        throw Errors.newTypeError("array.find: first argument must be an array", arg0.getLine(), arg0.getColumn());
                     }
-                }
-                if (defaultObj != null) {
-                    return defaultObj;
-                }
-                throw Errors.newFunctionCallError("array.find: no match found", arg0.getLine(), arg0.getColumn());
+                    Param arg1 = args.get(1);
+                    Object subfieldObj = arg1.getValue();
+                    if (!(subfieldObj instanceof String)) {
+                        throw Errors.newTypeError("array.find: second argument must be string", arg1.getLine(), arg1.getColumn());
+                    }
+                    String subfield = (String) subfieldObj;
+
+                    Object matchVal = args.get(2).getValue();
+                    Object defaultObj = null;
+                    if (args.size() == 4) {
+                        defaultObj = args.get(3).getValue();
+                    }
+                    for (Object elem : arr) {
+                        Map<String, Object> obj = Types.convertToStringMap(elem);
+                        if (obj == null) {
+                            continue;
+                        }
+                        if (obj.containsKey(subfield)) {
+                            Object v = obj.get(subfield);
+                            if (Types.equals(v, matchVal)) {
+                                return obj;
+                            }
+                        }
+                    }
+                    if (defaultObj != null) {
+                        return defaultObj;
+                    }
+                    throw Errors.newFunctionCallError("array.find: no match found", arg0.getLine(), arg0.getColumn());
 
             case "first":
                 if (args.size() < 1 || args.size() > 2) {

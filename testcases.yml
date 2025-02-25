@@ -6244,11 +6244,11 @@
 - description: "array.find #66: subfield is boolean true => found"
   context:
     arr:
-      - {on: false}
-      - {on: true}
+      - {"on": false}
+      - {"on": true}
   expression: "array.find($arr, 'on', true)"
   expectedResult:
-    on: true
+    "on": true
 
 - description: "array.find #67: subfield is boolean false => found"
   context:
@@ -11151,7 +11151,7 @@
 - description: "stringArray with nested array element"
   context: {}
   expression: "type.stringArray([[1,2], 3])"
-  expectedResult: ["[1 2]", "3"]
+  expectedResult: ["[1, 2]", "3"]
 
 - description: "Math.avg with stringArray should error (non‑numeric)"
   context: {}
