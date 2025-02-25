@@ -6,13 +6,18 @@
  */
 
 plugins {
-    // Apply the application plugin to add support for building a CLI application in Java.
+
+    id 'java-library'
     id 'application'
 }
+
+group = 'com.github.specdrivendesign'
+version = 'v0.0.3'
 
 repositories {
     // Use Maven Central for resolving dependencies.
     mavenCentral()
+    maven { url = uri("https://jitpack.io") }
 }
 
 dependencies {
@@ -36,7 +41,7 @@ java {
 
 application {
     // Define the main class for the application.
-    mainClass = 'com.github.ryancopley.lql.main.Main'
+    mainClass = 'com.github.specdrivendesign.lql.main.Main'
 }
 
 tasks.named('test') {
