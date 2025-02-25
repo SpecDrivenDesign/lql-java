@@ -2,6 +2,8 @@ package com.github.specdrivendesign.lql.pkg.lexer;
 
 import com.github.specdrivendesign.lql.pkg.errors.Errors;
 import com.github.specdrivendesign.lql.pkg.tokens.Tokens;
+import com.github.specdrivendesign.lql.pkg.tokenstream.TokenStream;
+
 import java.security.PrivateKey;
 
 import java.nio.ByteBuffer;
@@ -11,7 +13,7 @@ import java.util.List;
 import java.security.MessageDigest;
 import java.security.Signature;
 
-public class Lexer {
+public class Lexer implements TokenStream {
     private String input;
     private int position;
     private int readPosition;

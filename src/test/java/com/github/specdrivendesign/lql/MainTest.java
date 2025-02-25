@@ -22,7 +22,7 @@ public class MainTest {
         Testing.TestSuiteResult suiteResult = Testing.runTests(List.of(tc), env, false, false);
         // just a sanity check
         assertEquals(1, suiteResult.getTestResults().size());
-        final var result = suiteResult.getTestResults().getFirst();
+        final var result = suiteResult.getTestResults().get(0);
         assertNotEquals("FAILED", result.getStatus(), () -> generateFailureMessage(result));
     }
 

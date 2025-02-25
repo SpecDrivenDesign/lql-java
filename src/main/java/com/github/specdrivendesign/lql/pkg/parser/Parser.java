@@ -4,9 +4,9 @@ package com.github.specdrivendesign.lql.pkg.parser;
 import com.github.specdrivendesign.lql.pkg.ast.Expression;
 import com.github.specdrivendesign.lql.pkg.ast.expressions.*;
 import com.github.specdrivendesign.lql.pkg.errors.Errors;
-import com.github.specdrivendesign.lql.pkg.lexer.Lexer;
 import com.github.specdrivendesign.lql.pkg.tokens.Tokens;
 import com.github.specdrivendesign.lql.pkg.types.Types;
+import com.github.specdrivendesign.lql.pkg.tokenstream.TokenStream;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -14,12 +14,12 @@ import java.util.List;
 import java.util.Map;
 
 public class Parser {
-    private Lexer lexer;
+    private TokenStream lexer;
     private Tokens.Token curToken;
     private Tokens.Token peekToken;
     private List<String> errors;
 
-    public Parser(Lexer lexer) throws Exception {
+    public Parser(TokenStream lexer) throws Exception {
         this.lexer = lexer;
         this.errors = new ArrayList<>();
         nextToken();
