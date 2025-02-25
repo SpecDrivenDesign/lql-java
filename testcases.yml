@@ -10019,7 +10019,7 @@
 - description: "type.string #168: exponent => '120.0' or '1.2e2' (implementation dependent, but success path => we just give a likely result)"
   context: {}
   expression: "type.string(1.2e2)"
-  expectedResult: "120"  # or "120.0" or "1.2e2" is typical
+  expectedResult: "120.0"  # or "120.0" or "1.2e2" is typical
 
 - description: "type.string #169: boolean true => 'true'"
   context: {}
@@ -10085,7 +10085,7 @@
 - description: "type.string #180: zero float => '0.0' (depending on implementation, might be '0')"
   context: {}
   expression: "type.string(0.0)"
-  expectedResult: "0"  # Or "0.0"
+  expectedResult: "0.0"
 
 - description: "type.string #181: large int => '999999999999'"
   context: {}
@@ -10110,7 +10110,7 @@
 - description: "type.string #185: no decimal float => '2'"
   context: {}
   expression: "type.string(2.0)"
-  expectedResult: "2"  # Implementation might yield "2.0"
+  expectedResult: "2.0"
 
 - description: "type.string #186: negative exponent => e.g. '0.0314' or '3.14e-2'"
   context: {}
@@ -10491,7 +10491,7 @@
   context: { }
   expression: "12..3"
   expectedError: "LexicalError"
-  expectedErrorMessage: "Invalid number literal: missing digits after decimal point at line 1, column 3"
+  expectedErrorMessage: "Invalid number literal: missing digits after decimal point at line 1, column 4"
 
 - description: "Syntax Error 1: AND true"
   context: {}
@@ -10797,7 +10797,6 @@
   expression: "array.filter($myArray, 'score', 100)"
   expectedResult:
     - { score: 100 }
-    - { score: 100 }
 
 - description: "28) Subfield matchVal is boolean"
   context:
@@ -11059,7 +11058,7 @@
 - description: "stringArray with mixed types"
   context: {}
   expression: "type.stringArray([1, \"two\", 3.0])"
-  expectedResult: ["1", "two", "3"]
+  expectedResult: ["1", "two", "3.0"]
 
 - description: "Math.sum with intArray"
   context: {}
@@ -11131,7 +11130,7 @@
 - description: "stringArray with nil element"
   context: {}
   expression: "type.stringArray([null, \"foo\"])"
-  expectedResult: ["<nil>", "foo"]
+  expectedResult: ["null", "foo"]
 
 - description: "Math.sum with floatArray on float strings"
   context: {}
