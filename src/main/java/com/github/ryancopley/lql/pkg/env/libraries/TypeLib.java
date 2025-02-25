@@ -24,10 +24,18 @@ public class TypeLib implements ILibrary {
                 Param arg0 = args.get(0);
                 Object val = arg0.getValue();
                 if (val == null) {
-                    return "";
+                    return "null";
+                }
+                if (val instanceof Number) {
+                    double d = ((Number) val).doubleValue();
+                    // If the number is whole, return it without a trailing .0
+                    if (d == java.lang.Math.floor(d)) {
+                        return String.valueOf((long) d);
+                    }
                 }
                 return String.valueOf(val);
             }
+
             case "int": {
                 if (args.size() != 1) {
                     throw Errors.newParameterError("type.int requires 1 argument", line, col);
@@ -142,28 +150,38 @@ public class TypeLib implements ILibrary {
                     result.add(fVal);
                 }
                 return result;
-            }
-            case "stringArray": {
-                if (args.size() != 1) {
-                    throw Errors.newParameterError("type.stringArray requires 1 argument", line, col);
-                }
-                Object arrObj = args.get(0).getValue();
-                List<Object> arr = Types.convertToInterfaceList(arrObj);
-                if (arr == null) {
-                    throw Errors.newFunctionCallError("stringArray: value is not an array", args.get(0).getLine(), args.get(0).getColumn());
-                }
-                List<Object> result = new ArrayList<>();
-                for (Object elem : arr) {
-                    String s;
-                    if (elem instanceof String) {
-                        s = (String) elem;
-                    } else {
-                        s = String.valueOf(elem);
-                    }
-                    result.add(s);
-                }
-                return result;
-            }
+            }case "stringArray": {
+                 if (args.size() != 1) {
+                     throw Errors.newParameterError("type.stringArray requires 1 argument", line, col);
+                 }
+                 Object arrObj = args.get(0).getValue();
+                 List<Object> arr = Types.convertToInterfaceList(arrObj);
+                 if (arr == null) {
+                     throw Errors.newFunctionCallError("stringArray: value is not an array", args.get(0).getLine(), args.get(0).getColumn());
+                 }
+                 List<Object> result = new ArrayList<>();
+                 for (Object elem : arr) {
+                     String s;
+                     if (elem instanceof Number) {
+                         double d = ((Number) elem).doubleValue();
+                         // If the number is whole, format without trailing ".0"
+                         if (d == java.lang.Math.floor(d)) {
+                             s = String.valueOf((long) d);
+                         } else {
+                             s = String.valueOf(d);
+                         }
+                     } else if (elem instanceof String) {
+                         s = (String) elem;
+                     } else if (elem == null) {
+                         s = "null";
+                     } else {
+                         s = String.valueOf(elem);
+                     }
+                     result.add(s);
+                 }
+                 return result;
+             }
+
             case "isNumber": {
                 if (args.size() != 1) {
                     throw Errors.newParameterError("type.isNumber requires 1 argument", line, col);
