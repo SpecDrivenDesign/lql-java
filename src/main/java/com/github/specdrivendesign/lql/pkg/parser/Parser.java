@@ -84,7 +84,7 @@ public class Parser {
 
     private Expression parseAdditiveExpression() throws Exception {
         Expression left = parseMultiplicativeExpression();
-        while (curToken.getType() == Tokens.TokenPlus || curToken.getType() == Tokens.TokenMinus || curToken.getType() == Tokens.TokenModulo) {
+        while (curToken.getType() == Tokens.TokenPlus || curToken.getType() == Tokens.TokenMinus) {
             Tokens.Token operator = curToken;
             nextToken();
             Expression right = parseMultiplicativeExpression();
@@ -95,7 +95,7 @@ public class Parser {
 
     private Expression parseMultiplicativeExpression() throws Exception {
         Expression left = parseUnaryExpression();
-        while (curToken.getType() == Tokens.TokenMultiply || curToken.getType() == Tokens.TokenDivide) {
+        while (curToken.getType() == Tokens.TokenMultiply || curToken.getType() == Tokens.TokenDivide || curToken.getType() == Tokens.TokenModulo) {
             Tokens.Token operator = curToken;
             nextToken();
             Expression right = parseUnaryExpression();
