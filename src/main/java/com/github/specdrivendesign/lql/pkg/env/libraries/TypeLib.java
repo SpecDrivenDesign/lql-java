@@ -17,6 +17,40 @@ public class TypeLib implements ILibrary {
     @Override
     public Object call(String functionName, List<Param> args, int line, int col, int unused1, int unused2) throws Exception {
         switch (functionName) {
+            case "boolean": {
+                if (args.size() != 1) {
+                    throw Errors.newParameterError("type.boolean requires 1 argument", line, col);
+                }
+                Param arg0 = args.get(0);
+                Object val = arg0.getValue();
+                if (val == null) {
+                    return false;
+                }
+                if (val instanceof Boolean) {
+                    return val;
+                }
+                if (val instanceof String) {
+                    String s = ((String) val).trim();
+                    if (s.equals("") || s.equals("0")) {
+                        return false;
+                    }
+                    if (s.equals("1")) {
+                        return true;
+                    }
+                    throw Errors.newFunctionCallError("type.boolean: '" + val + "' cannot be converted to bool", arg0.getLine(), arg0.getColumn());
+                }
+                if (val instanceof Number) {
+                    double d = ((Number) val).doubleValue();
+                    if (d == 0.0) {
+                        return false;
+                    }
+                    if (d == 1.0) {
+                        return true;
+                    }
+                    throw Errors.newFunctionCallError("type.boolean: '" + val + "' cannot be converted to bool", arg0.getLine(), arg0.getColumn());
+                }
+                throw Errors.newFunctionCallError("type.boolean: '" + val + "' cannot be converted to bool", arg0.getLine(), arg0.getColumn());
+            }
             case "string": {
                 if (args.size() != 1) {
                     throw Errors.newParameterError("type.string requires 1 argument", line, col);
