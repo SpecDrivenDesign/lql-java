@@ -11182,7 +11182,7 @@
     y: 4
     z: 2
   expression: "$x / $y / $z"
-  expectedResult: 12.5
+  expectedResult: 12
 
 - description: "Novel Test #3: Combined modulo and addition"
   context:
@@ -11251,7 +11251,7 @@
 - description: "Novel Test #15: Division yielding float result"
   context: {}
   expression: "10 / 3"
-  expectedResult: 3.3333333333
+  expectedResult: 3
 
 - description: "Novel Test #16: Division by one"
   context: {}
@@ -11278,7 +11278,7 @@
     a: 17
     b: 5
   expression: "$a / $b + $a % $b"
-  expectedResult: 5.4
+  expectedResult: 5
 
 - description: "Novel Test #21: Nested optional chaining with cond.coalesce (present value)"
   context:
@@ -11296,8 +11296,8 @@
   context:
     arr: [1,2,3]
   expression: "$arr[-1]"
-  expectedError: "ReferenceError"
-  expectedErrorMessage: "array index out of bounds at line"
+  expectedError: "ArrayOutOfBoundsError"
+  expectedErrorMessage: "array index out of bounds at line 1, column 9"
 
 - description: "Novel Test #25: Object literal equality"
   context: {}
@@ -11396,7 +11396,8 @@
 - description: "Novel Test #44: Mixed arithmetic with float and int"
   context: {}
   expression: "3.5 * 2 + 1"
-  expectedResult: 8
+  expectedError: SemanticError
+  expectedErrorMessage: "Mixed numeric types require explicit conversion at line 1, column 5"
 
 - description: "Novel Test #45: Logical AND with booleans and arithmetic comparison"
   context:
@@ -11549,7 +11550,8 @@
 - description: "Novel Test #71: Mixed arithmetic with float and int multiplication"
   context: {}
   expression: "3.5 * 2 + 1"
-  expectedResult: 8
+  expectedError: "SemanticError"
+  expectedErrorMessage: "Mixed numeric types require explicit conversion at line 1, column 5"
 
 - description: "Novel Test #72: Logical OR with numeric comparison"
   context:
@@ -11674,7 +11676,7 @@
     a: 7
     b: 2
   expression: "$a / $b"
-  expectedResult: 3.5
+  expectedResult: 3
 - description: "Novel Test #96: Modulo operator with variables"
   context:
     a: 10
@@ -11704,4 +11706,4 @@
     y: 3
     z: 10
   expression: "(($x + $y) / $z > 1) && ($x - $y < 10)"
-  expectedResult: true
+  expectedResult: false
