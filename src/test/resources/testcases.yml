@@ -1,3 +1,26 @@
+- description: "Type test #1: Basic true"
+  expression: "true"
+  expectedResult: true
+- description: "Type test #2: Basic false"
+  expression: "false"
+  expectedResult: false
+- description: "Type test #3: Basic integer"
+  expression: "10"
+  expectedResult: 10
+- description: "Type test #4: Basic float"
+  expression: "10.5"
+  expectedResult: 10.5
+- description: "Type test #5: Basic string"
+  expression: '"test"'
+  expectedResult: test
+- description: "Type test #6: Basic array"
+  expression: "[10,20]"
+  expectedResult: [10,20]
+- description: "Type test #7: Basic map"
+  expression: '{"a":10}'
+  expectedResult:
+    a: 10
+
 - description: "Test #1: Basic integer equality"
   context:
     a: 10
